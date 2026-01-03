@@ -12,8 +12,6 @@ env/
 *.h5
 *.pth
 data/
-datasets/
-images/
 
 # VS Code Einstellungen
 .vscode/

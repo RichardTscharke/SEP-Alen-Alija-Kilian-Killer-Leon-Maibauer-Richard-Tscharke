@@ -6,6 +6,27 @@ from torchvision import datasets, transforms
 from model import ResNetLight
 import os
 
+
+
+# Pfade prüfen
+train_path = 'data/train'
+test_path = 'data/test'
+
+# Check 1: Existieren die Ordner?
+if os.path.exists(train_path) and os.path.exists(test_path):
+    print("✅ Perfekt! Die Hauptordner sind da.")
+    
+    # Check 2: Sind Klassen drin?
+    klassen = os.listdir(train_path)
+    print(f"Gefundene Klassen: {klassen}")
+    
+    if 'happy' in klassen:
+        print("✅ Sieht super aus! Die Klassen-Ordner sind auch da.")
+    else:
+        print("⚠️ Warnung: Die Unterordner (happy, angry...) fehlen.")
+else:
+    print(f"❌ Fehler: Ich finde {train_path} nicht. Hast du die Ordner richtig verschoben?")
+    
 # --- KONFIGURATION ---
 BATCH_SIZE = 32
 LEARNING_RATE = 0.001
@@ -14,7 +35,7 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Pfad zu deinen Daten (relativ zum Projektordner)
 TRAIN_DIR = 'data/train'
-VAL_DIR = 'data/val'
+VAL_DIR = 'data/test'
 
 def get_data_loaders():
     # Transformierungen: Bild laden -> Tensor -> Normalisieren
@@ -101,3 +122,4 @@ def train():
 
 if __name__ == "__main__":
     train()
+
