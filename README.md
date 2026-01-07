@@ -19,7 +19,7 @@ This project implements a Convolutional Neural Network (CNN) to classify facial 
 ├── results/                 # Output CSVs and evaluation metrics
 ├── src/
 │   ├── evaluate.py          # Generates confusion matrix & report
-│   ├── generate_csv.py      # Generates predictions.csv for submission
+│   ├── generate_csv.py      # Generates predictions.csv
 │   ├── model.py             # CNN Architecture definition
 │   ├── prepare_RAF_raw.py   # Data preprocessing script
 │   └── train.py             # Main training loop
