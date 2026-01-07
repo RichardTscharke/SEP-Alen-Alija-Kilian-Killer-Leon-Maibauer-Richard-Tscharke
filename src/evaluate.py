@@ -58,7 +58,7 @@ def evaluate_model():
     # Display confusion matrix as a table
     df_table = pd.DataFrame(cm, index=classes, columns=classes)
     print("\n" + "="*50)
-    print("CONFUSION MATRIX (ALS TABELLE)")
+    print("CONFUSION MATRIX as Table:")
     print("="*50)
     print(df_table)
     print("="*50 + "\n")
