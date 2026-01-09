@@ -110,7 +110,7 @@ def generate_csv(input_folder):
 if __name__ == "__main__":
     
     # Default path on server
-    default_folder = "data/RAF_processed/test"
+    default_folder = "data/RAF_original_processed/test"
     
     # Allow command line argument for folder path
     if len(sys.argv) > 1:

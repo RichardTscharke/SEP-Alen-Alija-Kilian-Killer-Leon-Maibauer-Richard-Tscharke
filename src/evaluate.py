@@ -10,7 +10,7 @@ from model import CustomEmotionCNN
 
 # Configurations
 MODEL_PATH = "models/raf_cnn_v1.pth" # Make sure this is the latest trained model path
-TEST_DIR = "data/RAF_processed/test"
+TEST_DIR = "data/RAF_original_processed/test"
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 BATCH_SIZE = 64
 
