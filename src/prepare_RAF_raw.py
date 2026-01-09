@@ -101,6 +101,8 @@ def process_data():
     print(f"Processed {count_aligned} aligned images.")
     print(f"Processed {count_original} original images.")
     print(f"Ignored {ignored_count} Images (Label: Neutral/Other).")
+    print(f"Aligned images saved in: {output_aligned_dir}")
+    print(f"Original images saved in: {output_original_dir}")
 
 if __name__ == "__main__":
     setup_directories()
