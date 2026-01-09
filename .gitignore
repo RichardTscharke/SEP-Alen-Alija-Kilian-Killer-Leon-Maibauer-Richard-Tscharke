@@ -8,10 +8,13 @@ __pycache__/
 venv/
 env/
 
-# Daten (zu groß für GitHub)
+# Daten 
 *.h5
 *.pth
 data/
+*.png
+*.jpg
+*.jpeg
 
 # VS Code Einstellungen
 .vscode/
