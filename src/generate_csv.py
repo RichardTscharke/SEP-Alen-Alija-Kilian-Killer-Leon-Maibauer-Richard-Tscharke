@@ -1,7 +1,6 @@
 import torch
 import os
 import sys
-import csv
 import pandas as pd
 from PIL import Image
 from torchvision import transforms

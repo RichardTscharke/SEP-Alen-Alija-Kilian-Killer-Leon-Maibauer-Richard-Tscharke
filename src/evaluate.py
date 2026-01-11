@@ -1,5 +1,4 @@
 import torch
-import torch.nn as nn
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from sklearn.metrics import confusion_matrix, classification_report
@@ -8,7 +7,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from model import CustomEmotionCNN
 import sys
-import os
 
 # Configurations
 MODEL_PATH = "models/raf_cnn_v3.pth" # Make sure this is the latest trained model path
