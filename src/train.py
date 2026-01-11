@@ -9,9 +9,8 @@ import os
 from model import CustomEmotionCNN
 
 
-# =========================
 #  HARDWARE CHECK
-# =========================
+
 def get_device():
     if torch.cuda.is_available():
         print(f"\n🚀 GPU Activated: {torch.cuda.get_device_name(0)}")
@@ -27,9 +26,8 @@ def get_device():
 DEVICE = get_device()
 
 
-# =========================
 # CONFIG
-# =========================
+
 BATCH_SIZE = 64
 LEARNING_RATE = 0.001
 EPOCHS = 25
@@ -39,9 +37,9 @@ VAL_DIR   = 'data/RAF_original_processed/test'
 MODEL_DIR = 'models'
 
 
-# =========================
+
 # MODEL SAVE PATH
-# =========================
+
 def get_unique_model_path(base_name="raf_cnn"):
     """
     Find the next available model save path: raf_cnn_v0.pth, raf_cnn_v1.pth, etc.
@@ -60,9 +58,8 @@ def get_unique_model_path(base_name="raf_cnn"):
         counter += 1
 
 
-# =========================
 # VALIDATION
-# =========================
+
 def validate(model, loader, criterion):
     model.eval()
     val_loss = 0.0
@@ -87,9 +84,9 @@ def validate(model, loader, criterion):
     return acc
 
 
-# =========================
+
 # MAIN
-# =========================
+
 def main():
     # 1. model save path
     save_path, version_id = get_unique_model_path()
@@ -153,6 +150,14 @@ def main():
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
+    #Scheduler
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer,
+        mode ="max",
+        patience=2,
+        factor=0.5,
+    )
+
     best_val_acc = 0.0
 
     # 5. Training Loop
@@ -188,6 +193,9 @@ def main():
 
         # Validation
         val_acc = validate(model, val_loader, criterion)
+        scheduler.step(val_acc)
+        print("LR:", optimizer.param_groups[0]["lr"])
+
 
         # Save best model
         if val_acc > best_val_acc:
