@@ -10,7 +10,6 @@ from model import CustomEmotionCNN
 
 
 #  HARDWARE CHECK
-
 def get_device():
     if torch.cuda.is_available():
         print(f"\n🚀 GPU Activated: {torch.cuda.get_device_name(0)}")
@@ -26,24 +25,22 @@ def get_device():
 DEVICE = get_device()
 
 
-# CONFIG
-
+# CONFIGURATIONS
 BATCH_SIZE = 64
 LEARNING_RATE = 0.001
 EPOCHS = 25
 
+# Paths to data directories
 TRAIN_DIR = 'data/RAF_original_processed/train'
 VAL_DIR   = 'data/RAF_original_processed/test'
 MODEL_DIR = 'models'
 
 
 
-# MODEL SAVE PATH
-
+# generate unique model save path
 def get_unique_model_path(base_name="raf_cnn"):
-    """
-    Find the next available model save path: raf_cnn_v0.pth, raf_cnn_v1.pth, etc.
-    """
+    
+    #Find the next available model save path: raf_cnn_v0.pth, raf_cnn_v1.pth, etc.
     if not os.path.exists(MODEL_DIR):
         os.makedirs(MODEL_DIR)
 
@@ -52,14 +49,13 @@ def get_unique_model_path(base_name="raf_cnn"):
         filename = f"{base_name}_v{counter}.pth"
         full_path = os.path.join(MODEL_DIR, filename)
 
-        if not os.path.exists(full_path):
+        if not os.path.exists(full_path): #File does not exist, so we can use this name
             return full_path, counter
 
         counter += 1
 
 
 # VALIDATION
-
 def validate(model, loader, criterion):
     model.eval()
     val_loss = 0.0
@@ -83,10 +79,7 @@ def validate(model, loader, criterion):
     print(f"    >>> Validation Loss: {val_loss / len(loader):.4f} | Val Acc: {acc:.2f}%")
     return acc
 
-
-
 # MAIN
-
 def main():
     # 1. model save path
     save_path, version_id = get_unique_model_path()
@@ -150,7 +143,7 @@ def main():
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
-    #Scheduler
+    # 5.Scheduler
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer,
         mode ="max",
@@ -160,7 +153,7 @@ def main():
 
     best_val_acc = 0.0
 
-    # 5. Training Loop
+    # 6. Training Loop
     for epoch in range(EPOCHS):
         model.train()
         running_loss = 0.0
@@ -191,13 +184,13 @@ def main():
             f"Train Loss: {avg_loss:.4f} | Train Acc: {epoch_acc:.2f}%"
         )
 
-        # Validation
+        # 7.Validation
         val_acc = validate(model, val_loader, criterion)
         scheduler.step(val_acc)
         print("LR:", optimizer.param_groups[0]["lr"])
 
 
-        # Save best model
+        # 8. Save best model
         if val_acc > best_val_acc:
             best_val_acc = val_acc
             torch.save(model.state_dict(), save_path)
